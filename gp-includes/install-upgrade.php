@@ -12,9 +12,18 @@
  * @since 1.0.0
  */
 function gp_upgrade_db() {
-	dbDelta( implode( "\n", gp_schema_get() ) );
+	global $wpdb;
 
 	$gp_db_version = get_option( 'gp_db_version' );
+
+	if ( 970 < $gp_db_version ) {
+		$wpdb->query( "ALTER TABLE {$wpdb->translation_sets} DROP INDEX project_id_slug_locale, DROP INDEX locale_slug;" );
+		$wpdb->query( "ALTER TABLE {$wpdb->originals} DROP INDEX singular_plural_context;" );
+		$wpdb->query( "ALTER TABLE {$wpdb->meta} DROP INDEX object_type__meta_key, DROP INDEX object_type__object_id__meta_key;" );
+	}
+
+	dbDelta( implode( "\n", gp_schema_get() ) );
+
 	if ( $gp_db_version ) {
 		gp_upgrade_data( $gp_db_version );
 	}
