@@ -24,9 +24,9 @@ function gp_schema_get() {
 	 * See https://dev.mysql.com/doc/refman/5.7/en/storage-requirements.html for details on the storage requirements
 	 * for each data type.
 	 */
-	$max_index_charcters = 767;
+	$max_index_characters = 767;
 	$bytes_per_character = 4;
-	$max_index_length = floor( $max_index_charcters / $bytes_per_character );
+	$max_index_length = floor( $max_index_characters / $bytes_per_character );
 
 	/*
 	 * Translations
